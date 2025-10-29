@@ -1,9 +1,10 @@
 package com.example.cinesharp_mobile.ui
 
-
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cinesharp_mobile.R
 import com.example.cinesharp_mobile.dtos.PeliculaDTO
@@ -14,24 +15,42 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CarteleraActivity : AppCompatActivity() {
+
     private val peliculasService = RetrofitClient.instance.create(PeliculasService::class.java)
+    private lateinit var recyclerPeliculas: RecyclerView
+    private lateinit var adapter: PeliculaAdapter
+    private var listaPeliculas: MutableList<PeliculaDTO> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.cartelera_activity)
 
-        val recycler = findViewById<RecyclerView>(R.id.recyclerPeliculas)
+        recyclerPeliculas = findViewById(R.id.recyclerPeliculas)
+        recyclerPeliculas.layoutManager = LinearLayoutManager(this)
 
+        adapter = PeliculaAdapter(listaPeliculas) { peliculaSeleccionada ->
+            val intent = Intent(this, DetallesActivity::class.java)
+            intent.putExtra("pelicula_id", peliculaSeleccionada.id)
+            startActivity(intent)
+        }
+
+        recyclerPeliculas.adapter = adapter
+
+        cargarPeliculas()
+    }
+
+    private fun cargarPeliculas() {
         peliculasService.obtenerPeliculas().enqueue(object : Callback<MutableList<PeliculaDTO>> {
             override fun onResponse(
                 call: Call<MutableList<PeliculaDTO>>,
                 response: Response<MutableList<PeliculaDTO>>
             ) {
                 if (response.isSuccessful) {
-                    val peliculas = response.body() ?: mutableListOf()
-                    recycler.adapter = PeliculaAdapter(peliculas)
+                    listaPeliculas.clear()
+                    listaPeliculas.addAll(response.body() ?: mutableListOf())
+                    adapter.notifyDataSetChanged()
                 } else {
-                    Toast.makeText(this@CarteleraActivity, "Error al cargar", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@CarteleraActivity, "Error al cargar películas", Toast.LENGTH_SHORT).show()
                 }
             }
 

@@ -1,5 +1,6 @@
 package com.example.cinesharp_mobile.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -76,6 +77,7 @@ class DetallesActivity : AppCompatActivity() {
                 text = "📅 ${funcion.fecha} - 🕒 ${funcion.hora} - 💰 S/ ${funcion.precio} - Sala ${funcion.sala}"
                 textSize = 14f
                 setPadding(0, 8, 0, 8)
+                setTextColor(Color.WHITE)
             }
             contenedorFunciones.addView(textoFuncion)
         }

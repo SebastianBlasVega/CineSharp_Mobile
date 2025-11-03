@@ -69,6 +69,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <!-- ⭐ Estrella solo visible para la película destacada -->
+            <ImageView
+                android:id="@+id/imgEstrella"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/star"
+                android:tint="#FFD700"
+                android:layout_marginTop="6dp"
+                android:visibility="gone" />
+
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

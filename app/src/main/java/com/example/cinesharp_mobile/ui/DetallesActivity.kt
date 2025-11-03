@@ -58,7 +58,6 @@ class DetallesActivity : AppCompatActivity() {
         val clasificacion = findViewById<TextView>(R.id.txtClasificacionDetalle)
         val duracion = findViewById<TextView>(R.id.txtDuracionDetalle)
         val sinopsis = findViewById<TextView>(R.id.txtSinopsisDetalle)
-        val contenedorFunciones = findViewById<LinearLayout>(R.id.contenedorFunciones)
 
         titulo.text = pelicula.titulo
         clasificacion.text = pelicula.clasificacion
@@ -69,17 +68,6 @@ class DetallesActivity : AppCompatActivity() {
             .load(pelicula.imagen)
             .placeholder(R.drawable.ic_launcher_background)
             .into(img)
-
-        // Mostrar lista de funciones
-        contenedorFunciones.removeAllViews()
-        pelicula.funciones.forEach { funcion ->
-            val textoFuncion = TextView(this).apply {
-                text = "📅 ${funcion.fecha} - 🕒 ${funcion.hora} - 💰 S/ ${funcion.precio} - Sala ${funcion.sala}"
-                textSize = 14f
-                setPadding(0, 8, 0, 8)
-                setTextColor(Color.WHITE)
-            }
-            contenedorFunciones.addView(textoFuncion)
         }
     }
-}
+

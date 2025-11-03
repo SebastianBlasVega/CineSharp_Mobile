@@ -10,6 +10,7 @@ import com.example.cinesharp_mobile.R
 import com.example.cinesharp_mobile.dtos.PeliculaDTO
 import com.example.cinesharp_mobile.retrofit.RetrofitClient
 import com.example.cinesharp_mobile.servicios.PeliculasService
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,8 +36,23 @@ class CarteleraActivity : AppCompatActivity() {
         }
 
         recyclerPeliculas.adapter = adapter
-
         cargarPeliculas()
+
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> true
+                R.id.nav_favoritos -> {
+                    startActivity(Intent(this, FavoritosActivity::class.java))
+                    true
+                }
+                R.id.nav_perfil -> {
+                    startActivity(Intent(this, PerfilActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun cargarPeliculas() {
@@ -50,7 +66,11 @@ class CarteleraActivity : AppCompatActivity() {
                     listaPeliculas.addAll(response.body() ?: mutableListOf())
                     adapter.notifyDataSetChanged()
                 } else {
-                    Toast.makeText(this@CarteleraActivity, "Error al cargar películas", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@CarteleraActivity,
+                        "Error al cargar películas",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 

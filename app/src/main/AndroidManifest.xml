@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cinesharp_mobile">
         <activity
+            android:name=".ui.PerfilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.FavoritosActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.DetallesActivity"
             android:exported="false" />
 
